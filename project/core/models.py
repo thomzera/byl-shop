@@ -1,15 +1,16 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Marca(models.Model):
-    nome = models.CharField(max_length=100)
+    nome = models.CharField(unique=True, max_length=100)
 
     def __str__(self):
         return self.nome
 
 
 class Categoria(models.Model):
-    nome = models.CharField(max_length=100)
+    nome = models.CharField(unique=True, max_length=100)
     descricao = models.TextField(blank=True)
 
     def __str__(self):
@@ -17,6 +18,8 @@ class Categoria(models.Model):
 
 
 class Produto(models.Model):
+    # TODO: pensar em alguma estratégia para Anuncio x Produto
+
     GENERO_CHOICES = (
         ('masculino', 'Masculino'),
         ('feminino', 'Feminino'),
@@ -40,9 +43,16 @@ class Produto(models.Model):
     tecido = models.CharField(max_length=50)
     material = models.CharField(max_length=50)
     marca = models.ForeignKey(Marca, on_delete=models.CASCADE)
+    ativo = models.BooleanField(default=True)
+    criado_em = models.DateTimeField(auto_now_add=True)
+    atualizado_em = models.DateTimeField(auto_now=True)
+    slug = models.SlugField(unique=False, null=False)
 
     def __str__(self):
         return self.nome
+
+    def get_absolute_url(self):
+        return reverse("produto_detail", kwargs={"slug": self.slug})
 
 
 class Cliente(models.Model):
