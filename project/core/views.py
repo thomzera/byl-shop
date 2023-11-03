@@ -1,13 +1,14 @@
-# from django.http import HttpResponse
-from django.shortcuts import render
+# from django.shortcuts import render
+from django.views.generic import DetailView, ListView
 
 from . import models as core_models
 
 
-def index(request):
-    produtos = core_models.Produto.objects.all()
-    return render(
-        request,
-        'core/pages/index.html',
-        {'produtos': produtos}
-    )
+class Index(ListView):
+    model = core_models.Produto
+    template_name = 'core/pages/index.html'
+
+
+class ProductDetail(DetailView):
+    model = core_models.Produto
+    template_name = 'core/pages/detail.html'

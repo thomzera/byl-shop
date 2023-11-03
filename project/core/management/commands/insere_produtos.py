@@ -32,7 +32,8 @@ class Command(BaseCommand):
             colecao='Primavera 2023',
             tecido='Algodão',
             material='Material A',
-            marca=marca1
+            marca=marca1,
+            slug="camiseta-adidas"
         )
 
         produto2 = Produto.objects.create(
@@ -51,7 +52,8 @@ class Command(BaseCommand):
             colecao='Outono 2023',
             tecido='Seda',
             material='Material B',
-            marca=marca2
+            marca=marca2,
+            slug="vestido-vera"
         )
 
         # Define a quantidade em estoque
