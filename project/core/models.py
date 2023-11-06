@@ -1,6 +1,8 @@
 from django.db import models
 from django.urls import reverse
 
+from ..accounts import models as accounts_models
+
 
 class Marca(models.Model):
     nome = models.CharField(unique=True, max_length=100)
@@ -55,16 +57,6 @@ class Produto(models.Model):
         return reverse("produto_detail", kwargs={"slug": self.slug})
 
 
-class Cliente(models.Model):
-    nome = models.CharField(max_length=100)
-    endereco = models.TextField()
-    numero_telefone = models.CharField(max_length=15)
-    email = models.EmailField(unique=True)
-
-    def __str__(self):
-        return self.nome
-
-
 class Pedido(models.Model):
     STATUS_CHOICES = (
         ('pendente', 'Pendente'),
@@ -73,7 +65,7 @@ class Pedido(models.Model):
         ('entregue', 'Entregue'),
     )
 
-    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    cliente = models.ForeignKey(accounts_models.CustomUser, on_delete=models.CASCADE)
     data_pedido = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES)
     endereco_entrega = models.TextField()
@@ -89,13 +81,13 @@ class ItemPedido(models.Model):
 
 
 class Carrinho(models.Model):
-    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    cliente = models.ForeignKey(accounts_models.CustomUser, on_delete=models.CASCADE)
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     quantidade = models.PositiveIntegerField()
 
 
 class Avaliacao(models.Model):
-    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    cliente = models.ForeignKey(accounts_models.CustomUser, on_delete=models.CASCADE)
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     avaliacao = models.PositiveIntegerField()
     comentario = models.TextField(blank=True)
@@ -107,7 +99,7 @@ class Cupom(models.Model):
 
 
 class HistoricoCompra(models.Model):
-    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    cliente = models.ForeignKey(accounts_models.CustomUser, on_delete=models.CASCADE)
     pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)
 
 
