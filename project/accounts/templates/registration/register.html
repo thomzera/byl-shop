@@ -8,9 +8,10 @@
 <body>
     <form method="post">
         {% csrf_token %}
-        {{ form.email.label_tag }} {{ form.email }}
+        {{ form.as_p }}
+        {% comment %} {{ form.email.label_tag }} {{ form.email }}
         {{ form.password1.label_tag }} {{ form.password1 }}
-        {{ form.password2.label_tag }} {{ form.password2 }}
+        {{ form.password2.label_tag }} {{ form.password2 }} {% endcomment %}
         <button type="submit">Registrar</button>
     </form>
 </body>

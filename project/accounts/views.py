@@ -13,10 +13,11 @@ def register(request):
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             login(request, user)
-            return redirect('home') 
+            return redirect('index') 
     else:
         form = RegistrationForm()
     return render(request, 'registration/register.html', {'form': form})
+
 
 def user_login(request):
     if request.method == 'POST':
@@ -27,10 +28,11 @@ def user_login(request):
             user = authenticate(request, username=username, password=password)
             if user:
                 login(request, user)
-                return redirect('home')
+                return redirect('index')
     else:
         form = LoginForm()
     return render(request, 'registration/login.html', {'form': form})
+
 
 def user_logout(request):
     logout(request)
