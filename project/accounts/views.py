@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import AnonymousUser
 from django.shortcuts import redirect, render
 
 from .forms import LoginForm, RegistrationForm
@@ -12,7 +13,10 @@ def register(request):
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
-            login(request, user)
+            
+            if user and not isinstance(user, AnonymousUser):
+                login(request, user)
+            
             return redirect('index') 
     else:
         form = RegistrationForm()
