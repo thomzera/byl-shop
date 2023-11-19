@@ -6,6 +6,12 @@
     <title>Home</title>
 </head>
 <body>
+    {% if user.is_authenticated %}
+        <p>Bem-vindo, {{ user.email }}!</p>
+    {% else %}
+        <p>Faça <a href="{% url 'login' %}">login</a> para ver seu email.</p>
+    {% endif %}
+
     <h1>Lista de Produtos</h1>
     <ul>
         {% for produto in object_list %}

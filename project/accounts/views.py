@@ -26,6 +26,13 @@ class UserLogin(View):
         return render(request, self.template_name, {'form': form})
 
 
+class UserLogout(View):
+    
+    def get(self, request):
+        logout(request)
+        return redirect('login')
+
+
 class UserRegister(View):
     template_name = 'registration/register.html'
 
@@ -37,7 +44,7 @@ class UserRegister(View):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            username = form.cleaned_data.get('username')
+            username = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
 
@@ -46,10 +53,3 @@ class UserRegister(View):
 
             return redirect('index')
         return render(request, self.template_name, {'form': form})
-
-
-class UserLogout(View):
-    
-    def get(self, request):
-        logout(request)
-        return redirect('login')
