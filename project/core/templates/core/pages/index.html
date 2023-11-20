@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-</head>
-<body>
+{% extends "core/global/base.html" %}
+
+{% block title %}Início{% endblock title %}
+
+{% block content %}
     {% if user.is_authenticated %}
         <p>Bem-vindo, {{ user.email }}!</p>
     {% else %}
@@ -23,5 +20,4 @@
             </li>
         {% endfor %}
     </ul>
-</body>
-</html>
+{% endblock content %}

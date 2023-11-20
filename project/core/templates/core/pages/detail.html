@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalhes</title>
-</head>
-<body>
+{% extends "core/global/base.html" %}
+
+{% block title %}Detalhes{% endblock title %}
+
+{% block content %}
     <h1>{{ object.nome }}</h1>
     <h2>Preço: {{object.preco}}</h2>
     <h4>Tamanho: {{ object.tamanho }}</h4>
@@ -17,5 +14,4 @@
     <h4>Comprimento: {{ object.comprimento }}</h4>
     <h4>Largura: {{ object.largura }}</h4>
     <h4>Cintura: {{ object.cintura }}</h4>
-</body>
-</html>
+{% endblock content %}

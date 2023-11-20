@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+    {% include 'core/partials/head.html' %}
+    <title>{% block title %}{% endblock title %}</title>
+</head>
+
+<body>
+    <div class="d-flex flex-column">
+        <div class="w-100 h-100">
+            {% block content %}{% endblock content %}
+        </div>
+    </div>
+</body>
+
+</html>
