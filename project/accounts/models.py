@@ -23,7 +23,7 @@ class CustomUserManager(BaseUserManager):
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     nome = models.CharField(null=True, blank=True, max_length=100)
-    data_nascimento = models.DateField(null=True, blank=True),
+    data_nascimento = models.DateField(null=True, blank=True)
     numero_telefone = models.CharField(null=True, blank=True, max_length=15)
     rua = models.CharField(null=True, blank=True, max_length=100)
     numero = models.CharField(null=True, blank=True, max_length=10)
