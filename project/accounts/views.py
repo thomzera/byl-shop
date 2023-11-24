@@ -1,20 +1,21 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import AnonymousUser
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 
-from .forms import LoginForm, RegistrationForm
+from . import forms as accounts_forms
+from . import models as accounts_models
 
 
 class UserLogin(View):
     template_name = 'registration/login.html'
 
     def get(self, request):
-        form = LoginForm()
+        form = accounts_forms.LoginForm()
         return render(request, self.template_name, {'form': form})
 
     def post(self, request):
-        form = LoginForm(request, data=request.POST)
+        form = accounts_forms.LoginForm(request, data=request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
@@ -37,11 +38,11 @@ class UserRegister(View):
     template_name = 'registration/register.html'
 
     def get(self, request):
-        form = RegistrationForm()
+        form = accounts_forms.RegistrationForm()
         return render(request, self.template_name, {'form': form})
 
     def post(self, request):
-        form = RegistrationForm(request.POST)
+        form = accounts_forms.RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('email')
@@ -51,5 +52,24 @@ class UserRegister(View):
             if user and not isinstance(user, AnonymousUser):
                 login(request, user)
 
+            return redirect('register_complete', user_id=user.id)
+        return render(request, self.template_name, {'form': form})
+    
+
+class UserRegisterComplete(View):
+    template_name = 'registration/register_complete.html'
+
+    def get(self, request, user_id):
+        user = get_object_or_404(accounts_models.CustomUser, id=user_id)
+        form = accounts_forms.RegistrationFormComplete(instance=user)
+        return render(request, self.template_name, {'form': form})
+    
+    def post(self, request, user_id):
+        user = get_object_or_404(accounts_models.CustomUser, id=user_id)
+        form = accounts_forms.RegistrationFormComplete(request.POST, instance=user)
+        
+        if form.is_valid():
+            form.save()
             return redirect('index')
+        
         return render(request, self.template_name, {'form': form})
