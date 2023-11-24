@@ -11,6 +11,8 @@ class UserLogin(View):
     template_name = 'registration/login.html'
 
     def get(self, request):
+        if request.user.is_authenticated:
+            return redirect('index')
         form = accounts_forms.LoginForm()
         return render(request, self.template_name, {'form': form})
 
@@ -38,6 +40,8 @@ class UserRegister(View):
     template_name = 'registration/register.html'
 
     def get(self, request):
+        if request.user.is_authenticated:
+            return redirect('index')
         form = accounts_forms.RegistrationForm()
         return render(request, self.template_name, {'form': form})
 
