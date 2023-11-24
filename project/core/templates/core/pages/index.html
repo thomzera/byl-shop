@@ -5,6 +5,7 @@
 {% block content %}
     {% if user.is_authenticated %}
         <p>Bem-vindo, {{ user.email }}!</p>
+        <a href="{% url 'logout' %}">Sair</a>
     {% else %}
         <p>Faça <a href="{% url 'login' %}">login</a> para ver seu email.</p>
     {% endif %}
